@@ -3,7 +3,8 @@
 ;; just an example
 (defn add-request-context [handler]
   (fn [request]
-    (handler (assoc request :context (.toString (java.util.UUID/randomUUID))))))
+    (let [context {:trace-id (.toString (java.util.UUID/randomUUID))}]
+      (handler (assoc request :context context)))))
 
 (defn wrap-middlewares [handler]
   (-> handler
