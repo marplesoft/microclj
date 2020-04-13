@@ -4,7 +4,7 @@
             [compojure.route :as route]))
 
 (defn index-page [request]
-  (str "Hello to " (get-in request [:context :trace-id])))
+  (str "Trace ID: " (get-in request [:context :trace-id])))
 
 (defroutes site-routes
   (GET "/" request (index-page request))
