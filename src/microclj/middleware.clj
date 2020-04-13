@@ -1,13 +1,12 @@
 (ns microclj.middleware)
 
 (defn add-request-context [handler]
-  (fn 
-    ([request]
-     (let [context {:trace-id (.toString (java.util.UUID/randomUUID))}]
-       (handler (assoc request :context context))))
-    ([request response raise]
-      (let [context {:trace-id (.toString (java.util.UUID/randomUUID))}]
-        (handler (assoc request :context context))) response raise)))
+  (let [context {:trace-id (.toString (java.util.UUID/randomUUID))}]
+    (fn 
+      ([request]
+       (handler (assoc request :context context)))
+      ([request response raise]
+       (handler (assoc request :context context) response raise)))))
 
 (defn add-locals [handler]
   (fn 
