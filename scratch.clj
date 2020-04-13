@@ -4,8 +4,6 @@
 
 (.toString (java.util.UUID/randomUUID))
 
-(use '[clojure.repl :only (source)])
-
 (use 'microclj.middleware)
 (defn handler [req]
   {:status 200
@@ -23,7 +21,9 @@
 (def m3 (last-resort-error-handler m2))
 (m3 {})
 
-((-> bad-handler
-     add-locals
-     add-request-context
-     last-resort-error-handler) {})
+((last-resort-error-handler (fn [req] (/ 1 0))) {})
+
+ ((-> bad-handler
+      add-locals
+      add-request-context
+      last-resort-error-handler) {})

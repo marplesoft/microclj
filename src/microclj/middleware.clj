@@ -16,9 +16,13 @@
     (try
       (handler request)
       (catch Exception e
-        (println (str "ERROR CAUGHT: " (.getMessage e)))))))
+        (let [errMsg (.getMessage e)]
+          (println (str "ERROR LOG: " errMsg))
+          {:status 500
+           :body (str "ERROR: " errMsg)})))))
 
 (defn wrap-middlewares [handler]
   (-> handler
       add-locals
-      add-request-context))
+      add-request-context
+      last-resort-error-handler))
