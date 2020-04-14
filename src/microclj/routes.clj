@@ -1,9 +1,9 @@
 (ns microclj.routes
-  (:require [compojure.core :refer :all]
+  (:require [compojure.core :refer [defroutes GET]] 
             [compojure.handler :as handler]
             [compojure.route :as route]))
 
-(defn index-page [request]
+(defn index-page [request] 
   (str "Trace ID: " (get-in request [:context :trace-id])))
 
 (defn throw-error [_]
