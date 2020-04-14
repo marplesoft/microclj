@@ -26,4 +26,14 @@
  ((-> bad-handler
       add-locals
       add-request-context
-      last-resort-error-handler) {})
+      last-resort-error-handler) {:foo "bar"})
+
+((-> bad-handler
+     add-request-context
+     show-req) {})
+
+(defn show-req [handler]
+  (fn [req]
+    (handler req)
+    (clojure.pprint/pprint req)))
+

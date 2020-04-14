@@ -1,4 +1,5 @@
-(ns microclj.middleware)
+(ns microclj.middleware
+  (:require [clojure.tools.logging :refer [error]]))
 
 (defn add-request-context [handler]
   (fn [request]
@@ -16,13 +17,12 @@
     (try
       (handler request)
       (catch Exception e
-        (let [errMsg (.getMessage e)]
-          (println (str "ERROR LOG: " errMsg))
-          {:status 500
-           :body (str "ERROR: " errMsg)})))))
+        (error (str "[" (get-in request [:context :trace-id]) "] " (.getMessage e)))
+        {:status 500
+         :body (str "ERROR: " (.getMessage e))}))))
 
 (defn wrap-middlewares [handler]
   (-> handler
       add-locals
-      add-request-context
-      last-resort-error-handler))
+      last-resort-error-handler
+      add-request-context))
