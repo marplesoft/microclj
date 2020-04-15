@@ -4,11 +4,6 @@
             [microclj.routes :refer [site]])
   (:gen-class :main true))
 
-(defn handler [request]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (str "Hello World " (:context request))})
-
 (def app (wrap-middlewares site))
 
 (defn -main [& _]
