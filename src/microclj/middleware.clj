@@ -1,28 +1,25 @@
 (ns microclj.middleware
   (:require [clojure.tools.logging :refer [error]]))
-
-(defn add-request-context [handler]
-  (fn [request]
-    (let [context {:trace-id (.toString (java.util.UUID/randomUUID))}]
-      (handler (assoc request :context context)))))
-      
+    
 (defn add-locals [handler]
   (fn [request]
     (let [context (:context request)
           response (handler request)]
       (assoc response :locals context))))
 
-(defn last-resort-error-handler [handler]
+(defn trace-and-handle-errors [handler] 
   (fn [request]
-    (try
-      (handler request)
-      (catch Exception e
-        (error (str "[" (get-in request [:context :trace-id]) "] " (.getMessage e)))
-        {:status 500
-         :body (str "ERROR: " (.getMessage e))}))))
+    (let [trace-id (.toString (java.util.UUID/randomUUID))
+          context {:trace-id trace-id}
+          request-with-context (assoc request :context context)]
+      (try
+        (handler request-with-context)
+        (catch Exception e
+          (error (str "{" trace-id "} " (.getMessage e)))
+          {:status 500
+           :body (str "Unexpected error (trace-id: " trace-id ")")})))))
 
 (defn wrap-middlewares [handler]
   (-> handler
       add-locals
-      last-resort-error-handler
-      add-request-context))
+      trace-and-handle-errors))
