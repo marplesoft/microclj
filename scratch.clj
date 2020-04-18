@@ -37,3 +37,5 @@
     (handler req)
     (clojure.pprint/pprint req)))
 
+(def testHandler (microclj.middleware/wrap-middlewares bad-handler))
+(testHandler {})
