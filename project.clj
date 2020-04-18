@@ -8,9 +8,12 @@
                  [log4j "1.2.15" :exclusions [javax.mail/mail
                                               javax.jms/jms
                                               com.sun.jdmk/jmxtools
-                                              com.sun.jmx/jmxri]]]
+                                              com.sun.jmx/jmxri]]
+                 [environ "1.1.0"]]
   :dev-dependencies [[ring/ring-devel "1.8.0"]]
-  :plugins [[lein-ring "0.12.5"]]
+  :plugins [[lein-ring "0.12.5"]
+            [lein-environ "1.1.0"]]
   :ring {:handler microclj.core/app}
+  :profiles {:dev {:env {:mode "dev"}}}
   :main microclj.core
   :aot [microclj.core])

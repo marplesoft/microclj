@@ -39,3 +39,20 @@
 
 (def testHandler (microclj.middleware/wrap-middlewares bad-handler))
 (testHandler {})
+
+(microclj.env/get-env :foo)
+
+(mapcat microclj.env/get-env [:foo :foo2])
+(concat "bar")
+(microclj.env/get-env :foo)
+
+(map identity [1 2 3])
+(apply map identity [1 2 3])
+
+(for [n [1 nil 3]]
+  n)
+
+(microclj.env/check-for-missing-env)
+(microclj.core.-main)
+
+(-> [:abc :xyz] clojure.string/upper-case)
