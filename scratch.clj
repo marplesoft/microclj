@@ -56,3 +56,15 @@
 (microclj.core.-main)
 
 (-> [:abc :xyz] clojure.string/upper-case)
+
+(mapcat #(clojure.string/reverse %) ["abc" "xyz"])
+
+(microclj.env/init)
+(map (fn [key] {key (microclj.env/get-env key)}) [:mode :missing])
+
+(->> [:mode :missing]
+    (map #(hash-map % (microclj.env/get-env %))))
+
+(hash-map :a 1)
+(interleave [:a :b :c] [nil])
+
