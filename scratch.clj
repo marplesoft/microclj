@@ -63,8 +63,62 @@
 (map (fn [key] {key (microclj.env/get-env key)}) [:mode :missing])
 
 (->> [:mode :missing]
-    (map #(hash-map % (microclj.env/get-env %))))
+     (map #(hash-map % (microclj.env/get-env %)))
+     (apply merge))
 
 (hash-map :a 1)
 (interleave [:a :b :c] [nil])
 
+(use '[compojure.core])
+
+(clojure.walk/macroexpand-all '(defroutes my-routes
+               (GET "/foo" request (handler request))))
+
+(defn app-routes []
+  (routes
+   (GET "/foo" request (handler request))))
+
+(clojure.walk/macroexpand-all '(app-routes))
+
+(clojure.walk/macroexpand-all '(defroutes all-routes
+                                 (app-routes)))
+
+(defroutes routes1
+  (GET "/1" req (handler req)))
+
+(defroutes routes2
+  (GET "/2" req (handler req))
+  (GET "/3" req (handler req)))
+
+(routes2 {:uri "/2"})
+
+(def app
+  (routes
+   routes1
+   routes2))
+
+(app {:uri "/2"})
+
+(def both-routes (concat routes1 routes2))
+(macroexpand-1 `(defroutes all-routes
+                 (all-routes)))  
+(defroutes all-the-routes
+  all-routes)
+
+(app {:server-port 80
+             :server-name "127.0.0.1"
+             :remote-addr "127.0.0.1"
+             :uri "/1"
+             :scheme :http
+             :headers {}
+             :request-method :get})
+
+(defn domath [f x y]
+  (f x y))
+(domath - 7 3)
+
+(defn add [x y]
+  `(domath + x y))
+(add 3 4)
+
+(macroexpand-1 `(GET "/" req (handler req)))
