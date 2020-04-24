@@ -1,7 +1,7 @@
 (ns microclj.config
   (:require [microclj.first.app :as first]
-            [compojure.core :refer [routes]]))
+            [compojure.core :refer [routes context]]))
 
 (def all-routes
   (routes
-   first/app))
+   (context "/first" [] first/app))) 

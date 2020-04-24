@@ -3,15 +3,15 @@
     
 (defn add-locals [handler]
   (fn [request]
-    (let [context (:context request)
+    (let [context (::context request)
           response (handler request)]
-      (assoc response :locals context))))
+      (assoc response ::locals context))))
 
 (defn trace-and-handle-errors [handler] 
   (fn [request]
     (let [trace-id (.toString (java.util.UUID/randomUUID))
           context {:trace-id trace-id}
-          request-with-context (assoc request :context context)]
+          request-with-context (assoc request ::context context)]
       (try
         (handler request-with-context)
         (catch Exception e

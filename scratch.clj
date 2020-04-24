@@ -122,3 +122,22 @@
 (add 3 4)
 
 (macroexpand-1 `(GET "/" req (handler req)))
+
+(microclj.config/app {:server-port 80
+      :server-name "127.0.0.1"
+      :remote-addr "127.0.0.1"
+      :uri "/first/"
+      :scheme :http
+      :headers {}
+      :request-method :get})
+
+(defn req [uri] 
+  {:server-port 80
+   :server-name "127.0.0.1"
+   :remote-addr "127.0.0.1"
+   :uri uri
+   :scheme :http
+   :headers {}
+   :request-method :get})
+
+(microclj.first.app/app (req "/"))
