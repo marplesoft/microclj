@@ -141,3 +141,12 @@
    :request-method :get})
 
 (microclj.first.app/app (req "/"))
+
+(require '[clojure.java.jdbc :as sql])
+(def db "postgresql://localhost:5432/microclj?user=app&password=notsecretfordev")
+(sql/db-do-commands db 
+                    (sql/create-table-ddl :test [[:name :text]]))
+(sql/insert! db :test {:name "ryan"})
+(sql/insert! db :test {:name "kate"})
+(sql/insert! db :test {:name "lily"})
+(sql/query db ["select name from test"])

@@ -4,6 +4,8 @@ services:
   microclj_db:
     image: postgres:10.3
     environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=notsecretfordev
       - POSTGRES_DB=microclj
     ports:
       - '0.0.0.0:5432:5432'

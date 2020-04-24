@@ -8,7 +8,7 @@
   (environ/env name))
 
 (defn missing-vars []
-  (for [required-var [:mode]
+  (for [required-var [:mode :rdb-url]
         :let [value (get-env required-var)]
         :when (nil? value)]
     required-var))
@@ -18,4 +18,5 @@
     (when (not-empty missing)
       (error (str "Required environment vars missing: " (join ", " missing)))
       (System/exit -1)))
-  (info (format "Clojure Microservices App started in '%s' mode" (get-env :mode))))
+  (info (format "Clojure Microservices App started in '%s' mode" (get-env :mode)))
+  (info (format "Using RDB-URL '%s'" (get-env :rdb-url))))
