@@ -1,7 +1,7 @@
 (ns microclj.env
   (:require [environ.core :as environ]
             [clojure.string :as str]
-            [clojure.tools.logging :refer [error]]
+            [clojure.tools.logging :refer [info error]]
             [clojure.string :refer [join]]))
 
 (defn get-env [name]
@@ -17,4 +17,5 @@
   (let [missing (missing-vars)]
     (when (not-empty missing)
       (error (str "Required environment vars missing: " (join ", " missing)))
-      (System/exit -1))))
+      (System/exit -1)))
+  (info (format "Clojure Microservices App started in '%s' mode" (get-env :mode))))
