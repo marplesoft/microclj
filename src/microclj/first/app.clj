@@ -3,15 +3,15 @@
             [compojure.handler :as handler]
             [compojure.route :as route]))
 
-(defn index-page [request] 
-  (str "Trace ID: " (get-in request [:microclj.middleware/context :trace-id])))
+(defn trace-page [request] 
+  (str "trace-id: " (get-in request [:microclj.middleware/context :trace-id])))
 
 (defn throw-error [_]
   (/ 1 0))
 
 (defroutes app
-  (GET "/trace" request (index-page request))
+  (GET "/trace" request (trace-page request))
   (GET "/err" request (throw-error request))
-  (route/resources "/"))
+  (route/resources "/" {:root "public/first"}))
 
 

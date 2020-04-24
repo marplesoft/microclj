@@ -19,7 +19,7 @@
           {:status 500
            :body (str "Unexpected error (trace-id: " trace-id ")")})))))
 
-(defn wrap-middlewares [handler]
+(defn wrap-global-middlewares [handler]
   (-> handler
       add-locals
       trace-and-handle-errors))
