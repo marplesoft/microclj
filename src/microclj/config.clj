@@ -4,4 +4,7 @@
 
 (def all-routes
   (routes
-   (context "/first" [] first/app))) 
+   (context "/first" [] first/app-routes))) 
+
+(def migration-folders 
+  ["first"])

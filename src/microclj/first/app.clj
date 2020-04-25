@@ -9,9 +9,7 @@
 (defn throw-error [_]
   (/ 1 0))
 
-(defroutes app
+(defroutes app-routes
   (GET "/trace" request (trace-page request))
   (GET "/err" request (throw-error request))
   (route/resources "/" {:root "public/first"}))
-
-

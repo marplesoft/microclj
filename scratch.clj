@@ -150,3 +150,11 @@
 (sql/insert! db :test {:name "kate"})
 (sql/insert! db :test {:name "lily"})
 (sql/query db ["select name from test"])
+
+(def config {:datastore (ragtime.jdbc/sql-database {:connection-uri db-conn-url} {:migrations-table "migrations"})
+             :migrations (load-resources (str "migrations/" migration-folder))})
+(ragtime.core/applied-migrations)
+
+(in-ns 'microclj.rdb)
+(Class/forName "org.postgresql.Driver")
+(microclj.rdb/run-migration "first")
