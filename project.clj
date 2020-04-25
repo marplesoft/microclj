@@ -19,7 +19,7 @@
   :ring {:handler microclj.core/app
          :init microclj.core/init}
   :profiles {:dev {:env {:mode "dev"
-                         :rdb-url "postgresql://localhost:5432/microclj?user=app"
+                         :rdb-host "localhost"
                          :rdb-pass "notsecretfordev"}}}
   :main microclj.core
   :aot [microclj.core])

@@ -6,12 +6,18 @@
             [ragtime.jdbc :as rag.jdbc]
             [clojure.tools.logging :refer [info]]))
 
-(def db-spec {:dbtype "postgresql"
-              :dbname "microclj"
-              :host "localhost"
-              :port 5432
-              :user "app"
-              :password (get-env :rdb-pass)})
+
+(defn- dynamic-db-spec []
+  (let [base-spec {:dbtype "postgresql"
+                   :dbname "microclj"
+                   :host (get-env :rdb-host)
+                   :port 5432
+                   :user "app"}]
+    (if-let [rdb-pass (get-env :rdb-pass)]
+      (assoc base-spec :password rdb-pass)
+      base-spec)))
+
+(def db-spec (dynamic-db-spec))
 
 (defn insert! [args] (apply jdbc/insert! db-spec args))
 (defn update! [args] (apply jdbc/update! db-spec args))
@@ -34,4 +40,7 @@
     (run-migration migration-folder)))
 
 (defn init []
+  (info (format "Using RDB host '%s' - %s" 
+                (get-env :rdb-host)
+                (if (get-env :rdb-pass) "password provided" "no password provided")))
   (run-migrations))
