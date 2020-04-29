@@ -5,7 +5,7 @@
             [hiccup.core :refer [html]]
             [hiccup.page :refer [html5 include-css include-js ]]
             [hiccup.middleware :refer [wrap-base-url]]
-            [hiccup.util :refer [with-base-url]]
+            [hiccup.util :refer [with-base-url to-uri]]
             [microclj.rdb :refer [query]]))
 
 (defn trace-page [request] 
@@ -53,7 +53,7 @@
      (html
       [:h1 "This is the home page"]
       [:p (format "Viewers have watched %s videos" (or videosWatched 0))]
-      [:form {:action "/record-viewing/12345" :method "POST"}
+      [:form {:action (to-uri "/record-viewing/12345") :method "POST"}
        [:button {:type "submit"} "Record viewing video"]]))))
 
 (defroutes app-routes-raw
