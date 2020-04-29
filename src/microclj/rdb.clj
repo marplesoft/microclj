@@ -1,7 +1,6 @@
 (ns microclj.rdb
   (:require [microclj.env :refer [get-env]]
             [clojure.java.jdbc :as jdbc]
-            [microclj.config :as config]
             [ragtime.repl :as rag]
             [ragtime.jdbc :as rag.jdbc]
             [clojure.tools.logging :refer [info]]))
@@ -18,6 +17,9 @@
       base-spec)))
 
 (def db-spec (dynamic-db-spec))
+
+(def migration-folders
+  ["first"])
 
 (defn insert! [args] (apply jdbc/insert! db-spec args))
 (defn update! [args] (apply jdbc/update! db-spec args))
@@ -36,7 +38,7 @@
     (rag/migrate config)))
 
 (defn run-migrations []
-  (doseq [migration-folder config/migration-folders]
+  (doseq [migration-folder migration-folders]
     (run-migration migration-folder)))
 
 (defn init []

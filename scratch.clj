@@ -158,3 +158,7 @@
 (in-ns 'microclj.rdb)
 (Class/forName "org.postgresql.Driver")
 (microclj.rdb/run-migration "first")
+
+(-> (microclj.rdb/query ["select sum (view_count) as videoswatched from videos"])
+    first
+    :videoswatched)
