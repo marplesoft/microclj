@@ -162,3 +162,5 @@
 (-> (microclj.rdb/query ["select sum (view_count) as videoswatched from videos"])
     first
     :videoswatched)
+
+(microclj.first.app/home {})
