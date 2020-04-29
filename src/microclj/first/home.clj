@@ -2,6 +2,7 @@
   (:require [microclj.rdb :refer [query]]
             [microclj.rdb :refer [query]]
             [microclj.first.common :as common]
+            [compojure.core :refer [defroutes GET]]
             [hiccup.core :refer [html]]
             [hiccup.util :refer [to-uri]]))
 
@@ -16,3 +17,6 @@
       [:p (format "Viewers have watched %s videos" (or videosWatched 0))]
       [:form {:action (to-uri "/record-viewing/12345") :method "POST"}
        [:button {:type "submit"} "Record viewing video"]]))))
+
+(defroutes routes
+  (GET "/" req (get req)))
