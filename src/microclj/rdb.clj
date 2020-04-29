@@ -25,6 +25,7 @@
 (defn update! [args] (apply jdbc/update! db-spec args))
 (defn delete! [args] (apply jdbc/delete! db-spec args))
 (defn query [args] (apply jdbc/query db-spec args))
+(defn query-one [args] (first (query args)))
 
 (defn log-migration-step [migration-folder _ op id]
   (let [action (case op :up "Applying" :down "Rolling back")]

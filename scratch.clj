@@ -164,3 +164,6 @@
     :videoswatched)
 
 (microclj.first.app/home {})
+
+(def x 32)
+*ns*
