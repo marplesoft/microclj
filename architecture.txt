@@ -1,0 +1,23 @@
+architecture outline
+
+infra:
+rdb - postgres container (for now), assume already running
+message-store - not sure what yet, assume already running
+
+app:
+core
+    *env (interface, check for required vars)
+    *rdb (interface, migrations)
+    app-loader
+        *global_app
+        *app1,*app2,...
+            routes
+            handlers
+    component-loader
+        *comp1,*comp2,...
+    aggregator-loader
+        *agg1,agg2,...
+maybe all top-level modules are components? not sure if that's needed for (reload) to reload everything.
+
+rather than starting lein ring server-headless, or lein run, can just run a (start) at the repl and it will start the app and all components from within the repl
+can reload there too via a (reload) which could be triggered via a hotkey ctrl-alt-c,.
