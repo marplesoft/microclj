@@ -2,7 +2,7 @@ architecture outline
 
 infra:
 rdb - postgres container (for now), assume already running
-message-store - not sure what yet, assume already running
+message-store - message-db (postgres) container, assume already running
 
 app:
 core
