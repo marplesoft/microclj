@@ -1,0 +1,1 @@
+{:mode "dev", :rdb-host "localhost", :rdb-pass "notsecretfordev"}
