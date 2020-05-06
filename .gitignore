@@ -2,4 +2,4 @@
 target/
 .nrepl-port
 .clj-kondo/
-.lein-repl.history
+.lein-repl-history

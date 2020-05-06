@@ -1,18 +1,22 @@
 (ns microclj.core
   (:require [ring.adapter.jetty :refer [run-jetty]]
-            [microclj.middleware :refer [wrap-global-middlewares]]
-            [microclj.env :as env]
+            [mount.core :refer [defstate start]]
+            [microclj.env]
+            [microclj.rdb]
             [microclj.config :as config]
-            [microclj.rdb :as rdb]
+            [microclj.middleware :refer [wrap-global-middlewares]]
             [clojure.tools.logging :refer [error info]])
   (:gen-class :main true))
 
-(defn init []
-  (env/init)
-  (rdb/init))
+(defn make-app [] (wrap-global-middlewares config/all-routes))
 
-(def app (wrap-global-middlewares config/all-routes))
+(defstate app :start (make-app))
+
+(defn- start-jetty [app]
+  (run-jetty app {:port 3000
+                  :join? false}))
+
+(defstate webserver :start (start-jetty app))
 
 (defn -main [& _]
-  (init)
-  (run-jetty app {:port 3000}))
+  (println "Mounted: " (start)))
