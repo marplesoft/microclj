@@ -16,6 +16,7 @@
                  [ragtime "0.8.0"]
                  [hiccup "1.0.5"]]
   :dev-dependencies [[ring/ring-devel "1.8.0"]]
+  :aot [microclj.core]
   :main microclj.core
-  ;; :repl-options {:init-ns user}
+  :repl-options {:init-ns dev}
   )
